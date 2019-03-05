@@ -22,4 +22,11 @@ class Issues extends Model {
         'created_on',
         'updated_on',
     ];
+
+    /**
+     * Get the issue project
+     */
+    public function project() {
+        return $this->belongsTo('App\Projects');
+    }
 }

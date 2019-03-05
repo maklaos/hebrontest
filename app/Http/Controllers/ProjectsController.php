@@ -32,7 +32,9 @@ class ProjectsController extends Controller {
             ]); //update projects from api
         }
 
-        return Projects::all();
+        return view('projects.index')->with([
+            'projects' => Projects::all()
+        ]);
     }
 
     /**

@@ -40,7 +40,9 @@ class IssuesController extends Controller {
             ]); //update issues from api
         }
 
-        return Issues::all();
+        return view('issues.index')->with([
+            'issues' => Issues::get()
+        ]);
     }
 
     /**
