@@ -37,11 +37,11 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $request->merge([
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::user()->id
         ]);
         Comment::create($request->all());
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Comment saved');
     }
 
     /**

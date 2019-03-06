@@ -21,7 +21,13 @@
             @foreach($issues as $issue)
                 <tr>
                     <td><a href="{{ route('issues.show', $issue->id) }}">{{ $issue->id }}</a></td>
-                    <td><a href="{{ route('projects.show', $issue->project_id) }}">{{ $issue->project->name }}</a></td>
+                    <td>
+                        @if (isset($issue->project->name))
+                            <a href="{{ route('projects.show', $issue->project_id) }}">{{ $issue->project->name }}</a>
+                        @else
+                            not synced
+                        @endif
+                    </td>
                     <td>{{ $issue->tracker }}</td>
                     <td>{{ $issue->status }}</td>
                     <td>{{ $issue->priority }}</td>

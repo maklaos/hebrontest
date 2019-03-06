@@ -89,6 +89,7 @@
             @endforeach
             </tbody>
         </table>
+        <p style="color:#79ff55">{!! \Session::get('success') !!}</p>
         <h4>Write a comment</h4>
         <form action="{{ route('comment.store') }}" method="post">
             {{ csrf_field() }}
