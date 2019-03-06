@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Issues extends Model {
+class Issue extends Model {
     protected $fillable = [
         'id',
         'project_id',
@@ -24,9 +24,9 @@ class Issues extends Model {
     ];
 
     /**
-     * Get the issue project
+     * Get the issue projects
      */
     public function project() {
-        return $this->belongsTo('App\Projects');
+        return $this->belongsTo('App\Project');
     }
 }

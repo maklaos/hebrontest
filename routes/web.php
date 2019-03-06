@@ -19,5 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('projects', 'ProjectsController')->middleware('auth');
-Route::resource('issues', 'IssuesController')->middleware('auth');
+Route::resource('projects', 'ProjectController')->middleware('auth');
+Route::resource('issues', 'IssueController')->middleware('auth');
+Route::resource('comment', 'CommentController')->middleware('auth');
