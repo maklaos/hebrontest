@@ -41,7 +41,7 @@ class CommentController extends Controller
         ]);
         Comment::create($request->all());
 
-        return redirect()->back()->with('success', 'Comment saved');
+        return redirect()->back()->with('success_comment', 'Comment saved');
     }
 
     /**
