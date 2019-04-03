@@ -12,11 +12,7 @@ class IssueController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $apiIssues = $this->curlExec('https://redmine.ekreative.com/issues.json?key='.config('redmine.redmine_api_key'));
-
-        if (is_array($apiIssues)) {
-            return $apiIssues['error']; // return error code if connection failed
-        }
+        $apiIssues = resolve('redmine')->getIssues();
 
         foreach ($apiIssues->issues as $issue) {
             Issue::updateOrCreate([
@@ -94,37 +90,12 @@ class IssueController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Issue $issue) {
-        $ch = curl_init();
-        $post = [
-            'time_entry[hours]' => $request->hours,
-            'time_entry[issue_id]' => $issue->id,
-            'time_entry[comments]'   => $request->comments,
-            'time_entry[activity_id]'   => $request->activity_id,
-            'time_entry[overtime]'   => $request->overtime,
-            'key' => config('redmine.redmine_api_key'),
-        ];
+        $result = resolve('redmine')->issueToRedmine($request, $issue);
 
-        $options = array(
-            CURLOPT_URL            => 'https://redmine.ekreative.com/time_entries.json',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER         => false,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_AUTOREFERER    => true,
-            CURLOPT_CONNECTTIMEOUT => 120,
-            CURLOPT_TIMEOUT        => 120,
-            CURLOPT_MAXREDIRS      => 10,
-            CURLOPT_POST           => 1,
-            CURLOPT_POSTFIELDS     => $post
-        );
-        curl_setopt_array($ch, $options);
-
-        curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if ($httpCode != 200){
+        if ($result->getStatusCode() == "200") {
             return redirect()->back()->with('success', 'Time saved');
         } else {
-            return $httpCode;
+            return redirect()->back()->with('error', 'Something went wrong=(');
         }
     }
 

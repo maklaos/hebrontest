@@ -102,6 +102,7 @@
 
         <h4>Add time</h4>
         <p style="color:#79ff55">{!! \Session::get('success') !!}</p>
+        <p style="color:#ff0005">{!! \Session::get('error') !!}</p>
         <form action="{{ route('projects.update', $project->id) }}" accept-charset="UTF-8" method="post">
             {{ csrf_field() }}
             <input type="hidden" name="_method" value="PUT">
